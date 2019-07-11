@@ -1,5 +1,5 @@
 // this routehandler handles request for participant collection
-const auth = require('../middleWare/auth');
+const auth = require('../middleware/auth');
 const { Transaction, validate} = require('../models/transaction');
 const express = require('express');
 const router = express.Router();
