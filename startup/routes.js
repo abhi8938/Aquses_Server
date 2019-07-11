@@ -1,6 +1,6 @@
 // const error = require('../middleWare/error');
 const express = require('express');
-const users = require('../routes/users');
+const users = require('../routes/Users');
 const auth = require('../routes/Auth');
 const orders = require('../routes/Orders');
 const services = require('../routes/services');
