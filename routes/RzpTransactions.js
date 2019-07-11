@@ -1,5 +1,5 @@
 // this routehandler handles request for participant collection
-const auth = require('../middleWare/auth');
+const auth = require('../middleware/auth');
 const Razorpay = require('razorpay');
 const { RZPTransaction, validate} = require('../models/rzptransaction');
 const express = require('express');
