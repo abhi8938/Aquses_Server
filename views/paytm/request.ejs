@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <script src="main.js"></script>
+</head>
+<body>
+    <center><h1>Please do not refresh this page...</h1></center>
+
+    <form method="post" action="https://securegw-stage.paytm.in/theia/processTransaction" name="f1"> 
+    <table border="1">
+            <tbody>
+        <% for (name in result) {
+            %>
+            <input type="hidden" name='<%= name %>' value= '<%= result[name] %>'/>
+            <%}%>  
+
+  </tbody>
+		</table>
+		<script type="text/javascript">
+			document.f1.submit();
+		</script>
+	</form>
+</body>
+</html>
