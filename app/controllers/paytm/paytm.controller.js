@@ -17,7 +17,7 @@ module.exports = {
                  paramarray[name] = paramlist[name]
              }
          }
-         paramarray["CALLBACK_URL"] = "http://192.168.1.5:3002/api/paytm/response";
+         paramarray["CALLBACK_URL"] = "https://aquses.herokuapp.com/api/paytm/response";
          checksum.genchecksum(paramarray, PAYTM_MERCHANT_KEY, (err, result) =>{
              if(err) console.log(err);
              res.render("paytm/request", {result});
