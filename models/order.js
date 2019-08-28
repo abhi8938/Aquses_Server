@@ -42,11 +42,12 @@ const orderSchema = new mongoose.Schema({
          pickupTime:{type:String, required:true},
          pickupDate:{type:String, required:true},
      },
-     deliver:{
-        deliverTime:{type:Date}
-    },
+     delivery:{
+         type:Date
+     },
      orderAddress:{
          formatedAddress:{type:String, required:true},
+         houseFloor:{type: String, required:true},
          latitude:{type:String, required:true},
          longitude:{type:String, required:true}
      },
@@ -57,8 +58,8 @@ const orderSchema = new mongoose.Schema({
      },
      orderStatus:{
          type:String,
-         enum:['PICK UP', 'PICKED','BILLED','DELIVER', 'COMPLETED'],
-         default:'PICK UP'
+         enum:['CREATED', 'PICKUP', 'PICKED', 'DELIVER', 'COMPLETED'],
+         default:'CREATED'
      },
      Employee:{
          PickUp:{
@@ -104,17 +105,20 @@ function validateorder(req){
         orderId: Joi.string(),
         serviceType: Joi.string().required(),
         orderPlaced: Joi.date(),
-        expectedDelivery: Joi.date().required(),
+        expectedDelivery: Joi.string().required(),
         pickUp: Joi.object().required(),
         orderAddress: Joi.object().required(),
         clothesItem: Joi.array(),
         customerId: Joi.string().required(),
         orderStatus:Joi.string(),
         Employee:Joi.object(),
-        deliver: Joi.object(),
+        delivery: Joi.date(),
         finalAmount:Joi.number(),
         orderWeight:Joi.number(),
-        payment:Joi.object()
+        payment:Joi.object(),
+        transactionId:Joi.string(),
+        mode:Joi.string(),
+        paid:Joi.boolean()
     };
 
     return Joi.validate(req.body, schema);

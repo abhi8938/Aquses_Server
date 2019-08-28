@@ -47,8 +47,8 @@ const userSchema = new mongoose.Schema({
         default:null
     },
     Addresses:{
-        Type:String,
-    },
+        type:Array
+    }
    
 });
 

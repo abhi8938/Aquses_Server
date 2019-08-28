@@ -17,14 +17,15 @@ module.exports = {
                  paramarray[name] = paramlist[name]
              }
          }
-         paramarray["CALLBACK_URL"] = "http://192.168.1.4:3002/api/paytm/response";
+         paramarray["CALLBACK_URL"] = "http://192.168.1.5:3002/api/paytm/response";
          checksum.genchecksum(paramarray, PAYTM_MERCHANT_KEY, (err, result) =>{
              if(err) console.log(err);
              res.render("paytm/request", {result});
          });
         },
        response: (req, res) =>{
-          const verified= checksum.verifychecksum(req.body,"qzyWd3oIS3PA@kA@");
+         console.log(`req.body`,req.body)
+          const verified= checksum.verifychecksum(req.body,"ZHdiFizLeS2T1i%j");
           if(verified == true){
             if(req.body.RESPCODE == '402'){
                 setTimeout(function(){
@@ -47,22 +48,18 @@ module.exports = {
 }
 
 function checkTXN(req, res){
-    // console.log(resp.orderId);
   var check = {
              "MID":req.body.MID,
              "ORDERID":req.body.ORDERID
   }
   var checkString = JSON.stringify(check);
-   
-  return checksum.genchecksumbystring(checkString, "qzyWd3oIS3PA@kA@", function (err, result) 
+  return checksum.genchecksumbystring(checkString, "ZHdiFizLeS2T1i%j", function (err, result) 
           {
-            console.log(req.body);
             if(err){
                 console.log(`error:${err}`);
             }else{
-                console.log(`Result:${result}`);
                 return request({
-                   url:'https://securegw.paytm.in/merchant-status/getTxnStatus',
+                   url:' https://securegw.paytm.in/order/status',
                    headers: {
                     'Content-Type': 'application/json',
                     'JsonData':{
@@ -77,8 +74,8 @@ function checkTXN(req, res){
                        console.log(`error:${error}`);
                      return error;
                    }else{
-                     // const resp1 = JSON.parse(response.body);
-                     console.log(`response:${response.body}`);
+                     const resp1 = JSON.parse(response.body);
+                     console.log(`responseTransactionAPI`,resp1);
                      if(response.body.RESPCODE === '01'){
                      return( res.render("paytm/response",{
                           status: true,

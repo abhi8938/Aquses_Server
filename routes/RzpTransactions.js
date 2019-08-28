@@ -6,8 +6,8 @@ const express = require('express');
 const router = express.Router();
 const { authorizePayment } = require('../Logic');
 let rzp = new Razorpay({
-  key_id: 'rzp_test_PqxUlQVTCDEAic', // your `KEY_ID`
-  key_secret:'CocvsEaZrHz8VrqXjmHTlsC6' // your `KEY_SECRET`
+  key_id: 'rzp_live_o59qnpASZKWCz0', // your `KEY_ID`
+  key_secret:'uzxlmpHKwNBkoC3CJWB1itHi' // your `KEY_SECRET`
 });
 router.get('/', async (req, res) => {
     const transactions = await RZPTransaction.find();
@@ -50,7 +50,10 @@ await rzptransaction.save();
 
 //Call function AuthorizePayment to capture payment
 const paymentresult = await authorizePayment(req);
-res.send(paymentresult);
+if(paymentresult == 'SUCCESS'){
+  res.status(200).send(rzptransaction);
+}
+
 
 })
 
@@ -70,7 +73,6 @@ res.send(paymentresult);
         customerEmailId: req.body.customerEmailId,
         customerMobile: req.body.customerMobile,
         created_at:order.created_at,
-        orderId:req.body.orderId
   }
   return addedOrder;
 }

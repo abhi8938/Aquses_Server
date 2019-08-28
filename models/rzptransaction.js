@@ -50,10 +50,6 @@ const rzptransactionSchema = new mongoose.Schema({
     created_at:{
         type:Number
     },
-    orderId:{
-         type:String,
-         required:true
-    }
 
 });
 
@@ -76,7 +72,6 @@ function validateTransaction(req){
         customerMobile: Joi.string().min(10).required(),
         created_at: Joi.number(),
         razorpay_payment_id: Joi.string(),
-        orderId: Joi.string().required()
     };
 
     return Joi.validate(req.body, schema);

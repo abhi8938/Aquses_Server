@@ -1,13 +1,13 @@
 // this routehandler handles request for participant collection
 const auth = require('../middleWare/auth');
 const crypto = require('crypto');
-const { Client }  = require('../models/client');
+const { User }  = require('../models/user');
 const express = require('express');
 const router = express.Router();
 
   router.get('/', async (req, res) => {
       console.log(req.query.resetPasswordToken);
-      Client.findOne({
+      User.findOne({
               resetPasswordToken: req.query.resetPasswordToken,
               resetPasswordExpires:{
                   $gt:Date.now(),

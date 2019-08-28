@@ -29,13 +29,7 @@ router.get('/', auth,  async (req, res) => {
      transactions = await transactions.save();
 
    if(transactions.TxnStatus == 'SUCCESS'){
-     console.log(transactions);
-     //TODO: AddPaymentMode in order
-     if(transactions.TxnStatus == 'SUCCESS'){
-       await addPaymentMode(transactions.TxnId, 'PAYTM', transactions.orderId)
-     }
-    
-      res.status(200).send('Payment Successful');
+      res.status(200).send(transactions);
    }else{
     res.status(400).send('Payment Failed, Please Retry');
    }
@@ -49,9 +43,7 @@ function addTransaction(req){
           TxnId: req.body.TxnId,
           Amount: req.body.Amount,
           TxnStatus: req.body.TxnStatus,
-          TxnDate: Date.now(),
-          orderId: req.body.orderId
-
+          TxnDate: Date.now()
     }
     return addedTransaction;
 }

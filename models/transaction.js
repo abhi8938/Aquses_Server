@@ -19,10 +19,8 @@ const transactionSchema = new mongoose.Schema({
        },
        TxnStatus:{
            type:String
-       },
-        orderId:{
-            type:String
-        }
+       }
+       
 
 });
 
@@ -37,7 +35,6 @@ function validateTransaction(req){
         Amount: Joi.number().min(5).required(),
         TxnStatus: Joi.string().required(),
         TxnDate: Joi.date(),
-        orderId:Joi.string().required()
     };
 
     return Joi.validate(req.body, schema);

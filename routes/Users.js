@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 const _= require('lodash');
-const { User, validate } = require('../models/user')
+const { User, validate, validatePassword } = require('../models/user')
 const express = require('express');
 const router = express.Router();
 
@@ -52,7 +52,28 @@ router.delete('/:id',  async (req,res)=>{
    res.send(user);
 });
 
-
+//CREATE ROUTE TO UPDATE ADDRESS
+router.put('/address', async (req,res) =>{
+ if(req.body.address == undefined || req.body.HF == undefined){
+   return res.status(304).send('address or house/floor missing, try again');
+ }
+  const addressData = {
+    address:req.body.address,
+    houseFloor:req.body.HF,
+    coordinates:req.body.coords
+  }
+const user =await User.findOne({ customerId: req.body.customerId});
+if(!user) return;
+if(user.Addresses == undefined){
+  const Address = new Array();
+  Address.push(addressData);
+  user.Addresses = Address;
+}else{
+  user.Addresses.push(addressData);
+}
+ await user.save();
+ res.status(200).send('ADDED');
+});
 
 // create put route handler to update firstName, lastName, mobileNumber
 router.put('/details', async (req, res) => {

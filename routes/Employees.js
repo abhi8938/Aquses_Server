@@ -8,7 +8,7 @@ const router = express.Router();
 
 
 router.get('/me', auth,  async (req, res, next) => {
-   const employee = await Employee.findById(req.Employee._id).select('-password');
+     const employee = await Employee.findById(req.user._id).select('-password');
    res.send(employee);
   });
 
@@ -37,7 +37,7 @@ router.post('/', async (req, res) => {
    
    employee = await employee.save()
    .then(() =>{
-    res.send(_.pick(employee, ['fullName', 'emailAddress']));
+    res.status(200).send(_.pick(employee, ['fullName', 'emailAddress']));
      })
    .catch(() =>{
     res.send('wrong');
