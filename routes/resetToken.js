@@ -1,5 +1,4 @@
 // this routehandler handles request for participant collection
-const auth = require('../middleWare/auth');
 const crypto = require('crypto');
 const { User }  = require('../models/user');
 const express = require('express');
