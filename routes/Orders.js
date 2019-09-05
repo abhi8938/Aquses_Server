@@ -80,7 +80,7 @@ router.get('/', async (req, res, next) => {
     if(this.orderStatus != 'COMPLETED'){
       return this
     }
-  }}).sort({orderPlaced: -1});
+  }}).limit(20).sort({orderPlaced: -1});
   res.send(orders);
 
 });

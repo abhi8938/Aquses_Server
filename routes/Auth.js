@@ -11,8 +11,8 @@ router.post('/user', async (req, res) => {
    const { error } = validate(req);
    if (error) return res.status(400).send(error.details[0].message);
   
-   const user = await User.findOne({ emailAddress: req.body.emailAddress });
-   if(!user) return res.status(400).send('Invalid Email ');
+   const user = await User.findOne().or({ emailAddress: req.body.emailAddress }).or({mobileNumber:req.body.emailAddress});
+   if(!user) return res.status(400).send('Invalid Email/ Mobile Number ');
   
    const validPassword = await bcrypt.compare(req.body.password, user.password);
    if(!validPassword) return res.status(400).send('Invalid Password');
@@ -26,8 +26,8 @@ router.post('/employee', async (req, res) => {
     const { error } = validate(req);
     if (error) return res.status(400).send(error.details[0].message);
    
-    const employee = await Employee.findOne({ emailAddress: req.body.emailAddress });
-    if(!employee) return res.status(400).send('Invalid Email ');
+    const employee = await Employee.findOne().or({ emailAddress: req.body.emailAddress }).or({mobileNumber:req.body.emailAddress});
+    if(!employee) return res.status(400).send('Invalid Email/ Mobile Number ');
    
     const validPassword = await bcrypt.compare(req.body.password, employee.password);
     if(!validPassword) return res.status(400).send('Invalid Password');
@@ -38,7 +38,7 @@ router.post('/employee', async (req, res) => {
 
 function validate(req){
     const schema = {
-        emailAddress: Joi.string().min(5).max(255).required().email(),
+        emailAddress: Joi.any(),
         password: Joi.string().min(5).max(255).required()
     };
 

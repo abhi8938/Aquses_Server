@@ -2,7 +2,7 @@
 const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 const _= require('lodash');
-const { User, validate, validatePassword } = require('../models/user')
+const { User, validate, validatePassword, validateResetPassword } = require('../models/user')
 const express = require('express');
 const router = express.Router();
 
@@ -54,6 +54,7 @@ router.delete('/:id',  async (req,res)=>{
 
 //CREATE ROUTE TO UPDATE ADDRESS
 router.put('/address', async (req,res) =>{
+
  if(req.body.address == undefined || req.body.HF == undefined){
    return res.status(304).send('address or house/floor missing, try again');
  }
@@ -69,6 +70,21 @@ if(user.Addresses == undefined){
   Address.push(addressData);
   user.Addresses = Address;
 }else{
+  if(user.Addresses.length > 4){
+    return res.status(400).send('Addresses Full');
+  }
+  let ispresent = false;
+  user.Addresses.map(element =>{
+    if(element.address == addressData.address){
+     ispresent = true
+    return
+    }
+    ispresent = false;
+    return;
+  })
+  if(ispresent){
+   return res.status(400).send('address already present')
+  }
   user.Addresses.push(addressData);
 }
  await user.save();
@@ -120,17 +136,15 @@ router.put('/password', async (req, res) => {
 //create forgotPasswordReset handler
 router.put('/resetPassword', async (req, res) => {
   const salt = await bcrypt.genSalt(10);
-  const user = await User.findOne({ userName: req.body.userName});
+  const user = await User.findOne({emailAddress:req.body.email});
   const { error } = validateResetPassword(req);
   if (error) return res.status(400).send(error.details[0].message);
 
   if(!user) {
     return res.status(404).json('no user exists in db to update');
   }else if(user){
-    console.log('user exists');
     return bcrypt.hash(req.body.password, salt)
                       .then( newPassword => {
-                         console.log(newPassword);
                          user.password = newPassword;
                          user.resetPasswordToken = null;
                          user.resetPasswordExpires = null;

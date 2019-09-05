@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema({
         default:null
     },
     Addresses:{
-        type:Array
+        type:Array,
     }
    
 });
@@ -99,7 +99,7 @@ function validatePasswordUpdate(req){
 }
 function validateResetPassword(req){
     const schema = {
-       userName: Joi.string().required(),
+       email: Joi.string().required().email(),
        password: Joi.string().min(5).max(255).required()
        
     };

@@ -9,6 +9,7 @@ const employees = require('../routes/Employees');
 const transactions = require('../routes/transactions');
 const paytm = require('../app/routes/paytm.routes');
 const resetToken = require('../routes/resetToken');
+const resetPassword = require('../routes/resetPassword');
 module.exports = function(app) {
     app.use(express.json());
     app.use('/api/users', users);
@@ -19,6 +20,6 @@ module.exports = function(app) {
     app.use('/api/employees', employees);
     app.use('/api/transactions', transactions);
     app.use('/api/paytm', paytm);
- 
     app.use('/api/reset', resetToken);
+    app.use('/api/resetPassword',resetPassword);
 }

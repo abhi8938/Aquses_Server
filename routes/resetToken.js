@@ -13,13 +13,10 @@ const router = express.Router();
               }
       }).then( user => {
           if(user == null) {
-              console.log(user);
               res.json('password reset link is invalid or has expired');
           }else {
-            console.log(user);
-              res.status(200).send({
-                
-                  userName: user.userName,
+              res.status(200).json({
+                  email: user.emailAddress,
                   message:'reset link ok'
               });
           }

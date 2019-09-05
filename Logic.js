@@ -5,7 +5,7 @@ const unirest = require('unirest');
 
 //START
 async function sendResetMessage(token, clientNumber){
-   const resetMessage = `Click the link to reset your PlayerZaf App Password:\n http://playerzaf.com/dashboard/#/reset/?token=${token}`;
+   const resetMessage = `Click the link to reset your Laundry Guru App Password:\n https://www.aquses.com/admin/#/reset/?token=${token}`;
    var req = unirest("GET", "https://www.txtguru.in/imobile/api.php");
 
    req.headers({
@@ -13,9 +13,9 @@ async function sendResetMessage(token, clientNumber){
      });
    
    req.query({
-       "username": 'playerzaf.contact' ,
-       "password": "15060138",
-       "source": 'PLAZAF',
+       "username": 'sachin.patel036' ,
+       "password": "69120784",
+       "source": 'CHCKSM',
        "dmobile": `91${clientNumber}`,
        "message":resetMessage
      });
