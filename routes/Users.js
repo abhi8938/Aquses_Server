@@ -54,7 +54,8 @@ router.delete('/:id',  async (req,res)=>{
 
 //CREATE ROUTE TO UPDATE ADDRESS
 router.put('/address', async (req,res) =>{
-
+  const user =await User.findOne({ customerId: req.body.customerId});
+  if(!user) return res.status(400).send('CustomerID Nil');
  if(req.body.address == undefined || req.body.HF == undefined){
    return res.status(304).send('address or house/floor missing, try again');
  }
@@ -63,8 +64,7 @@ router.put('/address', async (req,res) =>{
     houseFloor:req.body.HF,
     coordinates:req.body.coords
   }
-const user =await User.findOne({ customerId: req.body.customerId});
-if(!user) return;
+
 if(user.Addresses == undefined){
   const Address = new Array();
   Address.push(addressData);
