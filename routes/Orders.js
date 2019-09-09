@@ -76,11 +76,7 @@ router.get('/employees', async (req, res) => {
 
 
 router.get('/', async (req, res, next) => {
-  const orders = await Order.find({ $where: function(){
-    if(this.orderStatus != 'COMPLETED'){
-      return this
-    }
-  }}).limit(20).sort({orderPlaced: -1});
+  const orders = await Order.find().where("orderStatus" != "COMPLETED").limit(20).sort({orderPlaced: -1});
   res.send(orders);
 
 });
