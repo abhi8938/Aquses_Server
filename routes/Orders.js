@@ -12,18 +12,11 @@ router.get('/employees', async (req, res) => {
   var id = req.headers.employeeid;
   if (req.headers.type == 'ASSIGNED') {
     let Assigned = new Array
-   
-    var params = {};
-    params.$where = 'function(){' +
-      'if(this.Employee != undefined){' +
-      'if(this.orderStatus == "PICKUP" || this.orderStatus == "DELIVER"){' +
-      'return this' +
-      '}' +
-      '}' +
-      '}';
-    const orders = await Order.find(params).sort({ orderPlaced: -1 });
-
+    const orders = await Order.find().or([{orderStatus:'PICKUP'},{orderStatus: 'DELIVER'}]).sort({ orderPlaced: -1 });
     orders.map(element => {
+      if(element.Employee == undefined){
+        return
+      }
       if(element.Employee.PickUp.EmployeeId == id  && element.orderStatus == 'PICKUP'){
        return Assigned.push(element);
       }
@@ -37,18 +30,11 @@ router.get('/employees', async (req, res) => {
 
   } else if (req.headers.type == 'COMPLETED') {
     let completed = new Array;
-    var params = {};
-    params.$where = 'function(){' +
-      'if(this.Employee != undefined){' +
-      'if(this.orderStatus == "COMPLETED"|| this.orderStatus == "PICKED"){' +
-      'return this' +
-      '}' +
-      '}' +
-      '}';
- 
-    const orders = await Order.find(params).sort({ orderPlaced: -1})
-    console.log(`completed`, orders);
+    const orders = await Order.find().or([{orderStatus:'COMPLETED'},{orderStatus:'PICKED'}]).sort({ orderPlaced: -1})
     orders.map(element => {
+      if(element.Employee == undefined){
+        return;
+      }
       if(element.Employee.PickUp.EmployeeId == id && element.orderStatus == 'PICKED'){
         return completed.push(element);
        }
