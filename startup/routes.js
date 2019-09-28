@@ -10,6 +10,7 @@ const transactions = require('../routes/transactions');
 const paytm = require('../app/routes/paytm.routes');
 const resetToken = require('../routes/resetToken');
 const resetPassword = require('../routes/resetPassword');
+const coupon = require('../routes/Coupons')
 module.exports = function(app) {
     app.use(express.json());
     app.use('/api/users', users);
@@ -22,4 +23,5 @@ module.exports = function(app) {
     app.use('/api/paytm', paytm);
     app.use('/api/reset', resetToken);
     app.use('/api/resetPassword',resetPassword);
+    app.use('/api/coupons',coupon);
 }
