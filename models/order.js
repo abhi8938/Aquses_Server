@@ -91,6 +91,10 @@ const orderSchema = new mongoose.Schema({
          transactionId:{
              type:String
          }
+     },
+     customer:{
+         fullName:{type:String, required:true},
+         mobileNumber:{type:String, required:true}
      }
    
 });
@@ -118,7 +122,8 @@ function validateorder(req){
         payment:Joi.object(),
         transactionId:Joi.string(),
         mode:Joi.string(),
-        paid:Joi.boolean()
+        paid:Joi.boolean(),
+        customer:Joi.object()
     };
 
     return Joi.validate(req.body, schema);

@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const auth = require('../middleware/auth');
 const _ = require('lodash');
 const { Order, validate } = require('../models/order');
+const {User} = require('../models/user');
 const { Employee } = require('../models/employee');
 const express = require('express');
 const router = express.Router();
@@ -85,7 +86,10 @@ router.post('/', async (req, res) => {
   const { error } = validate(req);
   if (error) return res.status(400).send(error.details[0].message);
   order = new Order(addOrder(req, Id));
-  order = await order.save();
+  const customer = await User.findOne({customerId: req.body.customerId});
+  order.customer.fullName = customer.fullName;
+  order.customer.mobileNumber = customer.mobileNumber;
+  await order.save();
   res.send(order).status(200);
 });
 
